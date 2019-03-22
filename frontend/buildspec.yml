@@ -1,0 +1,17 @@
+version: 0.2
+            
+phases:
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+      - npm run build
+  post_build:
+    commands:
+      - aws s3 cp --recursive ./dist s3://bnk-test-devops
+      - aws cloudfront create-invalidation --distribution-id E14VPUD2P05YXP --path /*
+artifacts:
+  files:
+    - '**/*'
+  base-directory: frontend

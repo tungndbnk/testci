@@ -1,0 +1,21 @@
+version: 0.2
+            
+phases:
+  pre_build:
+    commands:
+      - pwd
+      - ls
+      - cd frontend/
+      - npm install
+      - npm run test
+  build:
+    commands:
+      - ls
+      - npm run build
+  post_build:
+    commands:
+      - aws s3 cp --recursive ./dist s3://plccombucket
+artifacts:
+  files:
+    - '**/*'
+  base-directory: frontend
